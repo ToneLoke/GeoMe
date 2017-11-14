@@ -2,32 +2,51 @@ import React, { Component } from 'react'
 import logo from './logo.svg'
 import './App.css'
 import { Layout, Menu, Icon, Row } from 'antd'
-import SimpleForecast from './simpleForecast'
+import FiveDay from './FiveDay'
+import CurrentDay from './CurrentDay'
 const { Header, Content, Footer, Sider } = Layout
+
+const nameOfDays = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday']
 
 class App extends Component {
   state ={
     city: '',
+    today: nameOfDays[new Date(Date.now()).getDay()],
     currentDay: {},
-    forecast: []
+    fiveDay: {},
+    forecast: {
+      monday:{},
+      tuesday:{},
+      wednesday:{},
+      thursday:{},
+      friday:{},
+      saturday:{},
+      sunday:{},
+    }
+  }
+  loadJson = (url) => {
+    return fetch(url).then(response => response.json())
   }
 
   componentWillMount () {
-    console.log('fire')
-    fetch('http://api.openweathermap.org/data/2.5/forecast?q=NewYork,us&appid=06c3da063b27db6b0a0cdfdc00c928fb&units=imperial')
-    .then(res => res.json())
-    .then(weather => {
-      console.log(weather)
-      let city = weather.city.name
-      let currentDay = weather.list[0]
-      let forecast = weather.list
-      this.setState({city,currentDay, forecast})
+    this.loadJson("http://ipinfo.io/json")
+      .then( data =>  this.loadJson(`http://api.openweathermap.org/data/2.5/forecast?lat=${data.loc.substring(0,data.loc.indexOf(','))}&lon=${data.loc.substring(data.loc.indexOf(',') + 1, data.loc.length)}&appid=06c3da063b27db6b0a0cdfdc00c928fb&units=imperial`))
+      .then(weather => {
+        console.log(weather)
+        let city = weather.city.name
+        let forecast = this.state.forecast
+        weather.list.map( day => {
+          let d = new Date(day.dt_txt)
+          forecast[`${nameOfDays[d.getDay()]}`][`${d.getHours()}`] = { ...day.main, ...day.weather[0]}
+        })
+        let currentDay = {...forecast[this.state.today]}
+        let fiveDay = {...forecast}
+        delete fiveDay[this.state.today]
+        this.setState({city,currentDay,fiveDay})
 
-    })
-    .catch(err => console.log(err))
-  }
-  weatherBoxes(){
-    return this.state.forecast.map( day => <SimpleForecast day={day} />)
+      })
+      .catch(err => console.log(err))
+
   }
   render () {
     return (
@@ -44,11 +63,12 @@ class App extends Component {
           />
         </Header>
         <Content style={{ margin: '24px 16px', padding: 24, background: '#fff', minHeight: 260 }}>
-          <div style={{ background: '#ECECEC', padding: '30px' }}>
-            <Row gutter={5}>
-              { this.state.forecast.length > 0 ? this.weatherBoxes() : null}
-            </Row>
-          </div>
+          <Row>
+            {/* <CurrentDay day={this.state.currentDay} /> */}
+          </Row>
+          <Row gutter={6}>
+            {/* <FiveDay days={this.state.fiveDay} /> */}
+          </Row>
         </Content>
       </Layout>
     )
