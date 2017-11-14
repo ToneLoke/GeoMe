@@ -1,10 +1,11 @@
 import React, { Component } from 'react'
-import logo from './logo.svg'
+import logo from './geomefinal.jpg'
 import './App.css'
 import { Layout, Menu, Icon, Row } from 'antd'
 import FiveDay from './FiveDay'
-import CurrentDay from './CurrentDay'
+import moment from 'moment'
 const { Header, Content, Footer, Sider } = Layout
+
 
 const nameOfDays = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday']
 
@@ -15,13 +16,13 @@ class App extends Component {
     currentDay: {},
     fiveDay: {},
     forecast: {
-      monday:{},
-      tuesday:{},
-      wednesday:{},
-      thursday:{},
-      friday:{},
-      saturday:{},
-      sunday:{},
+      Monday:{},
+      Tuesday:{},
+      Wednesday:{},
+      Thursday:{},
+      Friday:{},
+      Saturday:{},
+      Sunday:{},
     }
   }
   loadJson = (url) => {
@@ -30,19 +31,20 @@ class App extends Component {
 
   componentWillMount () {
     this.loadJson("http://ipinfo.io/json")
-      .then( data =>  this.loadJson(`http://api.openweathermap.org/data/2.5/forecast?lat=${data.loc.substring(0,data.loc.indexOf(','))}&lon=${data.loc.substring(data.loc.indexOf(',') + 1, data.loc.length)}&appid=06c3da063b27db6b0a0cdfdc00c928fb&units=imperial`))
+      .then( data =>  this.loadJson(`http://api.openweathermap.org/data/2.5/forecast?zip=${data.postal},us&appid=06c3da063b27db6b0a0cdfdc00c928fb&units=imperial`))
       .then(weather => {
         console.log(weather)
         let city = weather.city.name
-        let forecast = this.state.forecast
+        let forecast = {...this.state.forecast}
         weather.list.map( day => {
-          let d = new Date(day.dt_txt)
-          forecast[`${nameOfDays[d.getDay()]}`][`${d.getHours()}`] = { ...day.main, ...day.weather[0]}
+          let d = moment(day.dt_txt)
+          console.log(d.format('dddd'))
+          forecast[`${d.format('dddd')}`][`${d.format('h A')}`] = { ...day.main, ...day.weather[0], dt_txt: day.dt_txt}
         })
         let currentDay = {...forecast[this.state.today]}
         let fiveDay = {...forecast}
         delete fiveDay[this.state.today]
-        this.setState({city,currentDay,fiveDay})
+        this.setState({city,forecast, currentDay, fiveDay})
 
       })
       .catch(err => console.log(err))
@@ -52,22 +54,11 @@ class App extends Component {
     return (
       <Layout>
         <Header style={{ background: '#fff', padding: 0 }}>
-          <Icon
-            className='trigger'
-            type={'cloud-o'}
-          />
-          GeoMe
-          <Icon
-            className='trigger'
-            type={'smile'}
-          />
+          <img src={logo} className="logo"/>
         </Header>
         <Content style={{ margin: '24px 16px', padding: 24, background: '#fff', minHeight: 260 }}>
           <Row>
-            {/* <CurrentDay day={this.state.currentDay} /> */}
-          </Row>
-          <Row gutter={6}>
-            {/* <FiveDay days={this.state.fiveDay} /> */}
+            <FiveDay forecast={this.state.forecast}/>
           </Row>
         </Content>
       </Layout>

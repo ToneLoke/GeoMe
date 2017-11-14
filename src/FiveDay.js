@@ -1,21 +1,32 @@
-import React from 'react'
-import { Col, Card } from 'antd'
-import fahrenheit from './Fahrenheit.svg'
+import React, {Component} from 'react'
+import DayDisplay from './DayDisplay'
+import { Tabs, Radio, TimePicker } from 'antd'
+import moment from 'moment'
+const TabPane = Tabs.TabPane
 
-const nameOfDays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
-const nameOfMonths = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
-
-const FiveDay = ({day}) => {
-  let d = new Date(day.dt_txt)
-  let time = d.getHours() > 12 ? `${d.getHours() - 12}am` : `${d.getHours()}pm`
-  let date_display = `${nameOfDays[d.getDay()]} - ${nameOfMonths[d.getMonth()]} ${d.getDate()} - ${time}`
-
-  return (<Col span={4}>
-    <Card title={date_display} bordered={false} style={{ width: 300, margin: '8px 0' }}>
-      <h1>{Math.floor(day.main.temp)}</h1><img src={fahrenheit} style={{ width: 50, height: 50}} />
-      <p>{day.weather[0].description}</p>
-    </Card>
-  </Col>)
+class FiveDayDisplay extends Component {
+  updateTime = (time, timeString) => {
+    console.log(time, timeString)
+  }
+  render () {
+    let {forecast} = this.props
+    return (
+      <div>
+        <Tabs
+          defaultActiveKey='0'
+          tabPosition='left'
+          style={{ height: '50%' }}
+        >
+          {
+            Object.keys(forecast)
+            .map((key, i) => {
+              return Object.keys(forecast[key]).length === 0 ? null : <TabPane tab={key} key={i}><DayDisplay day={forecast[key]['6 PM']} updateTime={this.updateTime}/></TabPane>
+            })
+          }
+        </Tabs>
+      </div>
+    )
+  }
 }
 
-export default FiveDay
+export default FiveDayDisplay
