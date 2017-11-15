@@ -7,11 +7,14 @@ const {TabPane} = Tabs
 
 class FiveDayDisplay extends Component {
   state = {
-    timeString: '9 PM'
+    timeString: '9 AM'
   }
   updateTime = (time, timeString) => {
     this.setState({timeString})
   }
+  // shouldComponentUpdate(nextProps, nextState){
+  //   return nextProps.forecast[key].hasOwnProperty(this.nextState.timeString)
+  // }
   render () {
     let {forecast} = this.props
     let tabs = Object.keys(forecast).map((key, i) => {
