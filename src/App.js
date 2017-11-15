@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import logo from './geomefinal.jpg'
+import logo from './geoLogo.png'
 import './App.css'
 import { Layout, Menu, Icon, Row } from 'antd'
 import FiveDay from './FiveDay'
@@ -7,12 +7,10 @@ import moment from 'moment'
 const { Header, Content, Footer, Sider } = Layout
 
 
-const nameOfDays = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday']
-
 class App extends Component {
   state ={
     city: '',
-    today: nameOfDays[new Date(Date.now()).getDay()],
+    // today: nameOfDays[new Date(Date.now()).getDay()],
     currentDay: {},
     fiveDay: {},
     forecast: {
@@ -54,7 +52,15 @@ class App extends Component {
     return (
       <Layout>
         <Header style={{ background: '#fff', padding: 0 }}>
-          <img src={logo} className="logo"/>
+          <Icon
+            className='trigger'
+            type={'cloud-o'}
+          />
+          GeoMe
+          <Icon
+            className='trigger'
+            type={'smile'}
+          />
         </Header>
         <Content style={{ margin: '24px 16px', padding: 24, background: '#fff', minHeight: 260 }}>
           <Row>
