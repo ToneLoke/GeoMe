@@ -1,5 +1,4 @@
 import { GIPHY, WEATHER} from './config'
-const giphyApiUrl = `https://api.giphy.com/v1/gifs/random?api_key=${GIPHY}&tag=`
 
 class API {
   static request (url, method) {
@@ -36,6 +35,16 @@ export class WeatherAPI extends API {
   }
   static getForecast (term, loc) {
     let url = WeatherAPI.createURL('forecast', term, loc)
+    return super.request(url, 'GET')
+  }
+}
+
+export class GiphyAPI extends API {
+  static createURL (tag) {
+    return `https://api.giphy.com/v1/gifs/random?api_key=${GIPHY}&tag=${tag}&rating=PG-13`
+  }
+  static getRandGif (tag) {
+    let url = GiphyAPI.createURL(tag)
     return super.request(url, 'GET')
   }
 }

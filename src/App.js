@@ -4,6 +4,7 @@ import { Layout, Menu, Icon,Col, Row, Tabs, Radio, TimePicker  } from 'antd'
 import moment from 'moment'
 import DayDisplay from './DayDisplay'
 import {CityAPI, WeatherAPI} from './apiAdapter'
+import Search from './Search'
 import './App.css'
 const {TabPane} = Tabs
 const { Header, Content, Footer, Sider } = Layout
@@ -56,8 +57,8 @@ class App extends Component {
   }
   render () {
     return (
-      <Layout style={{backgroundColor: 'rgba(200,200,200,0.3)', zIndex: '2', paddingTop: '22px', position: 'fixed', marginLeft: '50%', top: '50%', transform: 'translateX(-50%) translateY(-50%)'}}>
-        <Header style={{ fontFamily: 'helvetica', color: 'black', width: '525px', background: '#fff', padding: 0, textAlign: 'center', paddingRight: '18px', margin: '0 auto' }}>
+      <Layout className='main'>
+        <Header className='title'>
           <Icon
             className='trigger'
             type={'cloud-o'}
@@ -69,13 +70,17 @@ class App extends Component {
           />
           {this.state.city}
         </Header>
-        <Content style={{ textAlign: 'center', width: '525px', margin: '24px 16px', padding: 24, background: '#fff', minHeight: 260 }}>
+        <Row>
+          <Col span={12} offset={6} >
+            <Search/>
+          </Col>
+        </Row>
+        <Content className='weather'>
           <Row>
             <Col span={24} >
               <Tabs
                 defaultActiveKey='0'
                 tabPosition='top'
-                style={{ height: '50%' }}
               >
                 {this.createTabs()}
               </Tabs>

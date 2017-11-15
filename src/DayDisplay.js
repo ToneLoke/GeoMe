@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import { TimePicker, Card, Col } from 'antd'
 import moment from 'moment'
-import cloudy from './wi-day-cloudy.svg'
+import {GiphyAPI} from './apiAdapter'
 import './weather-icons.css'
 
 class FiveDay extends Component {
@@ -14,8 +14,7 @@ class FiveDay extends Component {
     return [1, 2, 4, 5, 7, 8, 10, 11]
   }
   componentWillMount () {
-    fetch(`https://api.giphy.com/v1/gifs/random?api_key=A3iIyXV72KIPXrm6LJ8pF8ieOwmpgVQk&tag=${this.props.day.main}&rating=PG`)
-      .then( res => res.json() )
+    GiphyAPI.getRandGif(this.props.day.main)
       .then( gif => {
         this.setState({gif: gif.data.image_url})
       })
