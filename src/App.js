@@ -1,15 +1,19 @@
 import React, { Component } from 'react'
 import logo from './geoLogo.png'
-import './App.css'
-import { Layout, Menu, Icon, Row } from 'antd'
-import FiveDay from './FiveDay'
+import { Layout, Menu, Icon,Col, Row, Tabs, Radio, TimePicker  } from 'antd'
 import moment from 'moment'
+import DayDisplay from './DayDisplay'
+import {CityAPI, WeatherAPI} from './apiAdapter'
+import './App.css'
+const {TabPane} = Tabs
 const { Header, Content, Footer, Sider } = Layout
 
 
 class App extends Component {
   state ={
     city: '',
+    timeString: '9 AM',
+    activeKey: '',
     today: moment().format('dddd'),
     forecast: {
       Monday:{},
@@ -21,30 +25,39 @@ class App extends Component {
       Sunday:{},
     }
   }
-  loadJson = (url) => {
-    return fetch(url).then(response => response.json())
+  updateTime = (time, timeString) => {
+    this.setState({timeString})
   }
-
-  componentWillMount () {
-    this.loadJson("http://ipinfo.io/json")
-      .then( data =>  this.loadJson(`http://api.openweathermap.org/data/2.5/forecast?zip=${data.postal},us&appid=06c3da063b27db6b0a0cdfdc00c928fb&units=imperial`))
-      .then(weather => {
-        let city = weather.city.name
-        let forecast = {...this.state.forecast}
-        weather.list.map( day => {
-          let d = moment(day.dt_txt)
-          forecast[`${d.format('dddd')}`][`${d.format('h A')}`] = { ...day.main, ...day.weather[0], dt_txt: day.dt_txt}
-        })
-        this.setState({city,forecast})
-
+  setForecast = weather => {
+      let city = weather.city.name
+      let forecast = {...this.state.forecast}
+      weather.list.map( day => {
+        let d = moment(day.dt_txt)
+        forecast[`${d.format('dddd')}`][`${d.format('h A')}`] = { ...day.main, ...day.weather[0], dt_txt: day.dt_txt}
       })
+      delete forecast[this.state.today]
+      this.setState({city,forecast})
+  }
+  createTabs = () => {
+    let {forecast} = this.state
+    return Object.keys(forecast).map((key, i) => {
+                    return (Object.keys(forecast[key]).length === 0 ? null :
+                      <TabPane tab={key} key={i}>
+                        <DayDisplay day={forecast[key][this.state.timeString]} times={Object.keys(forecast[key])} updateTime={this.updateTime}/>
+                      </TabPane>
+                    )
+                  })
+  }
+  componentWillMount () {
+    CityAPI.get()
+      .then( data => WeatherAPI.getForecast('zip', data.postal) )
+      .then(this.setForecast)
       .catch(err => console.log(err))
-
   }
   render () {
     return (
-      <Layout>
-        <Header style={{ background: '#fff', padding: 0 }}>
+      <Layout style={{backgroundColor: 'rgba(200,200,200,0.3)', zIndex: '2', paddingTop: '22px', position: 'fixed', marginLeft: '50%', top: '50%', transform: 'translateX(-50%) translateY(-50%)'}}>
+        <Header style={{ fontFamily: 'helvetica', color: 'black', width: '525px', background: '#fff', padding: 0, textAlign: 'center', paddingRight: '18px', margin: '0 auto' }}>
           <Icon
             className='trigger'
             type={'cloud-o'}
@@ -56,9 +69,17 @@ class App extends Component {
           />
           {this.state.city}
         </Header>
-        <Content style={{ margin: '24px 16px', padding: 24, background: '#fff', minHeight: 260 }}>
+        <Content style={{ textAlign: 'center', width: '525px', margin: '24px 16px', padding: 24, background: '#fff', minHeight: 260 }}>
           <Row>
-            <FiveDay forecast={this.state.forecast}/>
+            <Col span={24} >
+              <Tabs
+                defaultActiveKey='0'
+                tabPosition='top'
+                style={{ height: '50%' }}
+              >
+                {this.createTabs()}
+              </Tabs>
+            </Col>
           </Row>
         </Content>
       </Layout>

@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import { TimePicker, Card } from 'antd'
+import { TimePicker, Card, Col } from 'antd'
 import moment from 'moment'
 import cloudy from './wi-day-cloudy.svg'
 import './weather-icons.css'
@@ -25,11 +25,13 @@ class FiveDay extends Component {
     let d = moment(day.dt_txt)
     const cardheading = () => (<div>{d.format('MMM DD')}<TimePicker style={{marginLeft: 50}} defaultValue={moment(d, this.state.format)} use12Hours format='h A' hideDisabledOptions={true} disabledHours={this.disabledHours} onChange={updateTime} /></div>)
     return (
-      <Card style={{ width: 300, margin: '8px 0', background: `url(${this.state.gif})`, zIndex: '0', color: 'white' }} title={cardheading()} bordered={false} >
-        <img style={{float: 'left'}} src={`http://openweathermap.org/img/w/${day.icon}.png`} />
-        <h1 style={{color: 'white'}}>{Math.floor(day.temp)}<sup>˚F</sup></h1>
-        <p>{day.description}</p>
-      </Card>
+      <Col span={14} offset={4}>
+        <Card style={{ width: 300, margin: '8px 0', background: `url(${this.state.gif})`, zIndex: '0', color: 'white' }} title={cardheading()} bordered={false} >
+          <img style={{float: 'left'}} src={`http://openweathermap.org/img/w/${day.icon}.png`} />
+          <h1 style={{color: 'white'}}>{Math.floor(day.temp)}<sup>˚F</sup></h1>
+          <p>{day.description}</p>
+        </Card>
+      </Col>
     )
   }
 }
