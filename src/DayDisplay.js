@@ -11,7 +11,7 @@ class FiveDay extends Component {
   }
   componentWillMount () {
     this.gifChange()
-    // setInterval(this.gifChange, 3000)
+    setInterval(this.gifChange, 3000)
   }
 
   gifChange = () => {
@@ -23,15 +23,13 @@ class FiveDay extends Component {
   render () {
     let {day, updateTime} = this.props
     let d = moment(day.dt_txt)
-    const cardheading = () => (<div>{d.format('MMM DD - h A')}</div>)
     return (
-      <Col span={14} offset={4}>
-        <Card style={{ width: 300, margin: '8px 0', background: `url(${this.state.gif})`, zIndex: '0', color: 'white' }} title={cardheading()} bordered={false} >
-          <img style={{float: 'left'}} src={`http://openweathermap.org/img/w/${day.icon}.png`} />
-          <h1 style={{color: 'white'}}>{Math.floor(day.temp)}<sup>˚F</sup></h1>
-          <p>{day.description}</p>
-        </Card>
-      </Col>
+      <div style={{ width: '100%', height: '100%' , backgroundSize: 'auto' ,backgroundImage: `url(${this.state.gif})`, backgroundRepeat: 'no-repeat', color: 'white' }}>
+        <div>{d.format('MMM DD - h A')}</div>
+        <img style={{float: 'left'}} src={`http://openweathermap.org/img/w/${day.icon}.png`} />
+        <h1 style={{color: 'white'}}>{Math.floor(day.temp)}<sup>˚F</sup></h1>
+        <p>{day.description}</p>
+      </div>
     )
   }
 }

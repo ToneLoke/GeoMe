@@ -51,7 +51,7 @@ class App extends Component {
     let {forecast} = this.state
     return Object.keys(forecast).map((key, i) => {
                     return (Object.keys(forecast[key]).length === 0 ? null :
-                      <TabPane tab={key} key={i}>
+                      <TabPane tab={key} key={i} style={{width: '100%', height: '100%'}}>
                         <DayDisplay day={forecast[key][this.state.timeString]} times={Object.keys(forecast[key])} updateTime={this.updateTime}/>
                       </TabPane>
                     )
@@ -89,16 +89,14 @@ class App extends Component {
           </Col>
         </Row>
         <Content className='weather'>
-          <Row>
-            <Col span={24} >
-              <Tabs
-                defaultActiveKey='0'
-                tabPosition='top'
-              >
-                {this.createTabs()}
-              </Tabs>
-            </Col>
-          </Row>
+
+          <Tabs
+            defaultActiveKey='0'
+            tabPosition='top'
+          >
+            {this.createTabs()}
+          </Tabs>
+
         </Content>
       </Layout>
     )

@@ -8,7 +8,7 @@ function renderOption(item) {
   let {main_text} = item.structured_formatting
   return (
     <Option key={item.id} text={main_text}>
-      { item.description}
+      { item.description }
     </Option>
   );
 }
@@ -16,6 +16,7 @@ function renderOption(item) {
 class Search extends React.Component {
   state = {
     predictions: [],
+    searchCity: ''
   }
 
   handleSearch = (value) => {
@@ -23,12 +24,13 @@ class Search extends React.Component {
     GoogleAPI.getCities(value)
       .then( res => {
         let {predictions} = res
-        this.setState({predictions})
+        this.setState({predictions,searchCity: value})
       })
   }
   onSelect = (value, some) =>  {
     let text = some.props.text
     this.props.getCity(text)
+    this.setState({searchCity: ''})
   }
 
 
@@ -37,6 +39,7 @@ class Search extends React.Component {
     return (
       <div className="global-search-wrapper" style={{ width: 300 }}>
         <AutoComplete
+          value={this.state.searchCity}
           className="global-search"
           size="large"
           style={{ width: '100%' }}
@@ -46,13 +49,6 @@ class Search extends React.Component {
           placeholder="Enter a City Name"
           optionLabelProp="text"
         >
-          <Input
-            suffix={(
-              <Button className="search-btn" size="large" type="primary" onClick={this.handleSendSearch}>
-                <Icon type="search" />
-              </Button>
-            )}
-          />
         </AutoComplete>
       </div>
     );

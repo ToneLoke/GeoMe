@@ -10,15 +10,13 @@
   </head>
   <body>
     <video
-      style="position: absolute; zIndex:1; width:auto"
+      style="position: absolute; z-index:1; object-fit: cover; height:100%; width:100%"
       autoplay
       loop
-      id="video-background"
       muted
     >
-      <source src="clouds.mp4" type="video/mp4" height="100%" width="100%"/>
+      <source src="clouds.mp4" type="video/mp4" />
     </video>
     <div id="root"></div>
-    <div id="show"></div>
   </body>
 </html>
