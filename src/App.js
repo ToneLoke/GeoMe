@@ -13,7 +13,7 @@ const { Header, Content, Footer, Sider } = Layout
 class App extends Component {
   state ={
     city: '',
-    timeString: '9 AM',
+    timeString: '3 PM',
     activeKey: '',
     today: moment().format('dddd'),
     forecast: {
@@ -31,7 +31,15 @@ class App extends Component {
   }
   setForecast = weather => {
       let city = weather.city.name
-      let forecast = {...this.state.forecast}
+      let forecast = {
+        Monday:{},
+        Tuesday:{},
+        Wednesday:{},
+        Thursday:{},
+        Friday:{},
+        Saturday:{},
+        Sunday:{},
+      }
       weather.list.map( day => {
         let d = moment(day.dt_txt)
         forecast[`${d.format('dddd')}`][`${d.format('h A')}`] = { ...day.main, ...day.weather[0], dt_txt: day.dt_txt}
@@ -48,6 +56,11 @@ class App extends Component {
                       </TabPane>
                     )
                   })
+  }
+  getCity = (cityName) => {
+    WeatherAPI.getForecast('q', cityName)
+    .then(this.setForecast)
+    .catch(err => console.log(err))
   }
   componentWillMount () {
     CityAPI.get()
@@ -72,7 +85,7 @@ class App extends Component {
         </Header>
         <Row>
           <Col span={12} offset={6} >
-            <Search/>
+            <Search getCity={this.getCity}/>
           </Col>
         </Row>
         <Content className='weather'>

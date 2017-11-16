@@ -1,70 +1,54 @@
 import React, {Component} from 'react'
 import { Icon, Button, Input, AutoComplete } from 'antd'
+import { GoogleAPI } from './apiAdapter'
 import './Search.css'
 const Option = AutoComplete.Option;
 
-function onSelect(value) {
-  console.log('onSelect', value);
-}
-
-function getRandomInt(max, min = 0) {
-  return Math.floor(Math.random() * (max - min + 1)) + min; // eslint-disable-line no-mixed-operators
-}
-
-function searchResult(query) {
-  return (new Array(getRandomInt(5))).join('.').split('.')
-    .map((item, idx) => ({
-      query,
-      category: `${query}${idx}`,
-      count: getRandomInt(200, 100),
-    }));
-}
-
 function renderOption(item) {
+  let {main_text} = item.structured_formatting
   return (
-    <Option key={item.category} text={item.category}>
-      {item.query}
-      <a
-        href={`https://s.taobao.com/search?q=${item.query}`}
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        {item.category}
-      </a>
-
-      <span className="global-search-item-count">{item.count} </span>
+    <Option key={item.id} text={main_text}>
+      { item.description}
     </Option>
   );
 }
 
 class Search extends React.Component {
   state = {
-    dataSource: [],
+    predictions: [],
   }
 
   handleSearch = (value) => {
-    this.setState({
-      dataSource: value ? searchResult(value) : [],
-    });
+    console.log("WE RUNNING")
+    GoogleAPI.getCities(value)
+      .then( res => {
+        let {predictions} = res
+        this.setState({predictions})
+      })
+  }
+  onSelect = (value, some) =>  {
+    let text = some.props.text
+    this.props.getCity(text)
   }
 
+
   render() {
-    const { dataSource } = this.state;
+    const { predictions } = this.state;
     return (
       <div className="global-search-wrapper" style={{ width: 300 }}>
         <AutoComplete
           className="global-search"
           size="large"
           style={{ width: '100%' }}
-          dataSource={dataSource.map(renderOption)}
-          onSelect={onSelect}
+          dataSource={predictions.map(renderOption)}
+          onSelect={this.onSelect}
           onSearch={this.handleSearch}
-          placeholder="input here"
+          placeholder="Enter a City Name"
           optionLabelProp="text"
         >
           <Input
             suffix={(
-              <Button className="search-btn" size="large" type="primary">
+              <Button className="search-btn" size="large" type="primary" onClick={this.handleSendSearch}>
                 <Icon type="search" />
               </Button>
             )}

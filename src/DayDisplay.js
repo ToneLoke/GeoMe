@@ -9,11 +9,12 @@ class FiveDay extends Component {
     format: 'HH',
     gif: ''
   }
-  disabledHours = () => {
-    console.log(this.props.times);
-    return [1, 2, 4, 5, 7, 8, 10, 11]
-  }
   componentWillMount () {
+    this.gifChange()
+    // setInterval(this.gifChange, 3000)
+  }
+
+  gifChange = () => {
     GiphyAPI.getRandGif(this.props.day.main)
       .then( gif => {
         this.setState({gif: gif.data.image_url})
@@ -22,7 +23,7 @@ class FiveDay extends Component {
   render () {
     let {day, updateTime} = this.props
     let d = moment(day.dt_txt)
-    const cardheading = () => (<div>{d.format('MMM DD')}<TimePicker style={{marginLeft: 50}} defaultValue={moment(d, this.state.format)} use12Hours format='h A' hideDisabledOptions={true} disabledHours={this.disabledHours} onChange={updateTime} /></div>)
+    const cardheading = () => (<div>{d.format('MMM DD - h A')}</div>)
     return (
       <Col span={14} offset={4}>
         <Card style={{ width: 300, margin: '8px 0', background: `url(${this.state.gif})`, zIndex: '0', color: 'white' }} title={cardheading()} bordered={false} >

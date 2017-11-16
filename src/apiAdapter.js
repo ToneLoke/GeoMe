@@ -1,4 +1,4 @@
-import { GIPHY, WEATHER} from './config'
+import { GIPHY, WEATHER, GOOGLE } from './config'
 
 class API {
   static request (url, method) {
@@ -24,6 +24,7 @@ export class CityAPI extends API {
   static get URL () {
     return 'http://ipinfo.io/json'
   }
+
   static get () {
     return super.request(CityAPI.URL, 'GET')
   }
@@ -46,5 +47,15 @@ export class GiphyAPI extends API {
   static getRandGif (tag) {
     let url = GiphyAPI.createURL(tag)
     return super.request(url, 'GET')
+  }
+}
+
+export class GoogleAPI extends API {
+  static createURL (text) {
+    return `https://maps.googleapis.com/maps/api/place/autocomplete/json?input=${text}&types=(cities)&language=pt_EN&key=${GOOGLE}`
+  }
+  static getCities (text) {
+    const URL = this.createURL(text)
+    return super.request(URL, 'GET')
   }
 }
