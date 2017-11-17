@@ -32,7 +32,7 @@ export class CityAPI extends API {
 
 export class WeatherAPI extends API {
   static createURL (endpoint, term, loc) {
-    return `http://api.openweathermap.org/data/2.5/${endpoint}?${term}=${loc},us&appid=${WEATHER}&units=imperial`
+    return `http://api.openweathermap.org/data/2.5/${endpoint}?${term}=${loc}&appid=${WEATHER}&units=imperial`
   }
   static getForecast (term, loc) {
     let url = WeatherAPI.createURL('forecast', term, loc)
@@ -57,5 +57,8 @@ export class GoogleAPI extends API {
   static getCities (text) {
     const URL = this.createURL(text)
     return super.request(URL, 'GET')
+  }
+  static getGeolocation (city) {
+    return super.request()
   }
 }
