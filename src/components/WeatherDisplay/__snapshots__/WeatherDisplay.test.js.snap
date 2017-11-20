@@ -1,0 +1,28 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Weather display renders the appropiate props 1`] = `
+<div
+  className="weather-display-container"
+  style={
+    Object {
+      "backgroundImage": "url()",
+    }
+  }
+>
+  <h1>
+    Nov 23
+  </h1>
+  <img
+    src="http://openweathermap.org/img/w/01n.png"
+  />
+  <h1>
+    40
+    <sup>
+      ˚F
+    </sup>
+  </h1>
+  <h1>
+    clear sky
+  </h1>
+</div>
+`;

@@ -1,0 +1,26 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`to header renders with the correct city name 1`] = `
+<div
+  className="title ant-layout-header"
+>
+  <i
+    className="anticon anticon-cloud-o trigger"
+  />
+  GeoMe
+  <i
+    className="anticon anticon-smile trigger"
+  />
+  <span
+    id="geo-city"
+  >
+    Denver
+  </span>
+  , 
+  <span
+    id="geo-country"
+  >
+    US
+  </span>
+</div>
+`;
