@@ -1,4 +1,3 @@
-import { GIPHY, WEATHER, GOOGLE } from './config'
 
 class API {
   static request (url, method) {
@@ -32,7 +31,7 @@ export class CityAPI extends API {
 
 export class WeatherAPI extends API {
   static createURL (endpoint, lat, lng) {
-    return `http://api.openweathermap.org/data/2.5/${endpoint}?lat=${lat}&lon=${lng}&appid=${WEATHER}&units=imperial`
+    return `http://api.openweathermap.org/data/2.5/${endpoint}?lat=${lat}&lon=${lng}&appid=${process.env.REACT_APP_WEATHER}&units=imperial`
   }
   static getForecast (lat, lng) {
     let url = WeatherAPI.createURL('forecast', lat, lng)
@@ -42,7 +41,7 @@ export class WeatherAPI extends API {
 
 export class GiphyAPI extends API {
   static createURL (tag) {
-    return `https://api.giphy.com/v1/gifs/random?api_key=${GIPHY}&tag=${tag}&rating=PG-13`
+    return `https://api.giphy.com/v1/gifs/random?api_key=${process.env.REACT_APP_GIPHY}&tag=${tag}&rating=PG-13`
   }
   static getRandGif (tag) {
     let url = GiphyAPI.createURL(tag)
@@ -52,10 +51,10 @@ export class GiphyAPI extends API {
 
 export class GoogleAPI extends API {
   static createPlacesURL (text) {
-    return `https://maps.googleapis.com/maps/api/place/autocomplete/json?input=${text}&types=(cities)&language=pt_EN&key=${GOOGLE}`
+    return `https://maps.googleapis.com/maps/api/place/autocomplete/json?input=${text}&types=(cities)&language=pt_EN&key=${process.env.REACT_APP_GOOGLE}`
   }
   static createGeoURL (text) {
-    return `https://maps.googleapis.com/maps/api/geocode/json?address=${text}&key=${GOOGLE}`
+    return `https://maps.googleapis.com/maps/api/geocode/json?address=${text}&key=${process.env.REACT_APP_GOOGLE}`
   }
   static getCities (text) {
     const URL = this.createPlacesURL(text)
