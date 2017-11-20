@@ -21,7 +21,7 @@ class API {
 
 export class CityAPI extends API {
   static get URL () {
-    return 'http://ipinfo.io/json'
+    return 'https://ipinfo.io/json'
   }
 
   static get () {
@@ -31,7 +31,7 @@ export class CityAPI extends API {
 
 export class WeatherAPI extends API {
   static createURL (endpoint, lat, lng) {
-    return `http://api.openweathermap.org/data/2.5/${endpoint}?lat=${lat}&lon=${lng}&appid=${process.env.REACT_APP_WEATHER}&units=imperial`
+    return `https://api.openweathermap.org/data/2.5/${endpoint}?lat=${lat}&lon=${lng}&appid=${process.env.REACT_APP_WEATHER}&units=imperial`
   }
   static getForecast (lat, lng) {
     let url = WeatherAPI.createURL('forecast', lat, lng)
