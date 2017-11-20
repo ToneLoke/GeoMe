@@ -35,7 +35,7 @@ class App extends Component {
       }
       weather.list.map( day => {
         let d = moment(day.dt_txt)
-        forecast[`${d.format('dddd')}`][`${d.format('h A')}`] = { ...day.main, ...day.weather[0], dt_txt: day.dt_txt}
+        forecast[`${d.format('dddd')}`][`${d.format('h A')}`] = {  temp: day.main.temp, ...day.weather[0], dt_txt: day.dt_txt}
       })
       delete forecast[this.state.today]
       this.setState({city,forecast,country})
@@ -44,8 +44,8 @@ class App extends Component {
     let {forecast} = this.state
     return Object.keys(forecast).map((key, i) => {
                     return (Object.keys(forecast[key]).length === 0 ? null :
-                      <TabPane tab={key} key={i} style={{width: '100%', height: '100%'}}>
-                        <WeatherDisplay day={forecast[key][this.state.timeString]} times={Object.keys(forecast[key])} updateTime={this.updateTime}/>
+                      <TabPane tab={key} key={i}>
+                        <WeatherDisplay day={forecast[key][this.state.timeString]} />
                       </TabPane>
                     )
                   })
@@ -53,7 +53,6 @@ class App extends Component {
   getCity = (cityName) => {
     GoogleAPI.getGeolocation(cityName)
     .then( geo => {
-      console.log(geo)
       let {lat , lng} = geo.results[0].geometry.location
       return WeatherAPI.getForecast(lat, lng)
     })

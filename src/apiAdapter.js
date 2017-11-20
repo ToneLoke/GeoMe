@@ -55,7 +55,7 @@ export class GoogleAPI extends API {
     return `https://maps.googleapis.com/maps/api/place/autocomplete/json?input=${text}&types=(cities)&language=pt_EN&key=${GOOGLE}`
   }
   static createGeoURL (text) {
-    return `https://maps.googleapis.com/maps/api/geocode/json?address=${text}&sensor=false&key=${GOOGLE}`
+    return `https://maps.googleapis.com/maps/api/geocode/json?address=${text}&key=${GOOGLE}`
   }
   static getCities (text) {
     const URL = this.createPlacesURL(text)

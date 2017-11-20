@@ -5,7 +5,6 @@ import './Search.css'
 const {Option} = AutoComplete
 
 function renderOption(item) {
-  let {main_text} = item.structured_formatting
   return (
     <Option key={item.description} text={item.description}>
       { item.description }
@@ -31,8 +30,6 @@ class Search extends React.Component {
     this.props.getCity(text)
     this.setState({searchCity: ''})
   }
-
-
   render() {
     const { predictions } = this.state
     return (
