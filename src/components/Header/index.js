@@ -13,7 +13,7 @@ const TopHeader = ({city, country}) => (
       className='trigger'
       type={'smile'}
     />
-    <span id='geo-info'>{city}</span>
+    <span id='geo-info'>{city}, {country}</span>
   </Header>
 )
 

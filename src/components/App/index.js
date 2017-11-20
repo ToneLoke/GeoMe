@@ -13,9 +13,7 @@ class App extends Component {
   state ={
     city: '',
     country: '',
-    usState: '',
     timeString: '3 PM',
-    activeKey: '',
     today: moment().format('dddd'),
     forecast: {
     }
@@ -25,6 +23,7 @@ class App extends Component {
   }
   setForecast = weather => {
       let city = weather.city.name
+      let country = weather.city.country
       let forecast = {
         Monday:{},
         Tuesday:{},
@@ -39,7 +38,7 @@ class App extends Component {
         forecast[`${d.format('dddd')}`][`${d.format('h A')}`] = { ...day.main, ...day.weather[0], dt_txt: day.dt_txt}
       })
       delete forecast[this.state.today]
-      this.setState({city,forecast})
+      this.setState({city,forecast,country})
   }
   createTabs = () => {
     let {forecast} = this.state
@@ -73,7 +72,7 @@ class App extends Component {
   render () {
     return (
       <Layout className='main'>
-        <TopHeader city={this.state.city}/>
+        <TopHeader city={this.state.city} country={this.state.country}/>
         <Row>
           <Col span={12} offset={6} >
             <SearchBar getCity={this.getCity}/>
