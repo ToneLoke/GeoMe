@@ -1,9 +1,9 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import App from './index'
+import SearchBar from './index'
 import { mount } from 'enzyme'
 
-test('app renders without crashing', () => {
+test('top header renders without crashing', () => {
   const div = document.createElement('div')
-  ReactDOM.render(<App />, div)
+  ReactDOM.render(<SearchBar />, div)
 })

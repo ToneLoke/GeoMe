@@ -1,16 +1,19 @@
 import React, { Component } from 'react'
-import { Layout, Icon, Col, Row, Tabs } from 'antd'
+import { Layout, Col, Row, Tabs } from 'antd'
 import moment from 'moment'
+import {CityAPI, WeatherAPI, GoogleAPI} from '../../apiAdapter'
 import WeatherDisplay from '../WeatherDisplay'
-import {CityAPI, WeatherAPI} from '../../apiAdapter'
 import SearchBar from '../SearchBar'
+import TopHeader from '../Header'
 import './App.css'
 const { TabPane } = Tabs
-const { Header, Content } = Layout
+const { Content } = Layout
 
 class App extends Component {
   state ={
     city: '',
+    country: '',
+    usState: '',
     timeString: '3 PM',
     activeKey: '',
     today: moment().format('dddd'),
@@ -49,45 +52,40 @@ class App extends Component {
                   })
   }
   getCity = (cityName) => {
-    WeatherAPI.getForecast('q', cityName)
+    GoogleAPI.getGeolocation(cityName)
+    .then( geo => {
+      console.log(geo)
+      let {lat , lng} = geo.results[0].geometry.location
+      return WeatherAPI.getForecast(lat, lng)
+    })
     .then(this.setForecast)
-    .catch(err => console.log(err))
+    .catch( err => console.log(err))
   }
   componentWillMount () {
     CityAPI.get()
-      .then( data => WeatherAPI.getForecast('zip', data.postal) )
+      .then( data => {
+        let geolocation = data.loc.split(',')
+        return WeatherAPI.getForecast(geolocation[0], geolocation[1])
+      })
       .then(this.setForecast)
       .catch(err => console.log(err))
   }
   render () {
     return (
       <Layout className='main'>
-        <Header className='title'>
-          <Icon
-            className='trigger'
-            type={'cloud-o'}
-          />
-          GeoMe
-          <Icon
-            className='trigger'
-            type={'smile'}
-          />
-          {this.state.city}
-        </Header>
+        <TopHeader city={this.state.city}/>
         <Row>
           <Col span={12} offset={6} >
             <SearchBar getCity={this.getCity}/>
           </Col>
         </Row>
         <Content className='weather'>
-
           <Tabs
             defaultActiveKey='0'
             tabPosition='top'
           >
             {this.createTabs()}
           </Tabs>
-
         </Content>
       </Layout>
     )

@@ -26,7 +26,7 @@ class Search extends React.Component {
         this.setState({predictions,searchCity: value})
       })
   }
-  onSelect = (value, some) =>  {
+  onSelect = (value) =>  {
     let text = encodeURI(value.split(', ').join(','))
     this.props.getCity(text)
     this.setState({searchCity: ''})
