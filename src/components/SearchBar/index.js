@@ -22,10 +22,11 @@ class Search extends React.Component {
   }
 
   handleSearch = (value) => {
+    this.setState({searchCity: value})
     GoogleAPI.getCities(value)
       .then( res => {
         let {predictions} = res
-        this.setState({predictions,searchCity: value})
+        this.setState({predictions})
       })
   }
   onSelect = (value) =>  {
@@ -38,6 +39,7 @@ class Search extends React.Component {
     return (
       <div className="global-search-wrapper">
         <AutoComplete
+          value={this.state.searchCity}
           className="global-search"
           size="large"
           dataSource={predictions.map(renderOption)}
