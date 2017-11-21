@@ -1,20 +1,15 @@
 import React from 'react'
-import { Layout, Icon } from 'antd'
-const { Header } = Layout
+import { Icon } from 'antd'
 
 const TopHeader = ({city, country}) => (
-  <Header className='title'>
+  <div >
+    <span className='logocity'>GeoMe</span>
     <Icon
       className='trigger'
       type={'cloud-o'}
     />
-    GeoMe
-    <Icon
-      className='trigger'
-      type={'smile'}
-    />
-    <span id='geo-city'>{city}</span>, <span id='geo-country'>{country}</span>
-  </Header>
+    <span className='logocity' id='geo-city'>{city}, {country}</span>
+  </div>
 )
 
 export default TopHeader

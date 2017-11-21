@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import { Col } from 'antd'
+import { Col, Card } from 'antd'
 import moment from 'moment'
 import {GiphyAPI} from '../../apiAdapter'
 import './Weather.css'
@@ -27,13 +27,16 @@ class FiveDay extends Component {
   render () {
     let {day, updateTime} = this.props
     let d = moment(day.dt_txt)
+    const cardheading = () => (<div className='cardhead'>{d.format('MMM DD')}</div>)
+
     return (
-      <div style={{backgroundImage: `url(${this.state.gif})`}} className='weather-display-container'>
-        <h1>{d.format('MMM DD')}</h1>
-        <img src={`http://openweathermap.org/img/w/${day.icon}.png`} />
-        <h1 >{Math.floor(day.temp)}<sup>˚F</sup></h1>
-        <h1>{day.description}</h1>
-      </div>
+      <Card style={{backgroundImage: `url(${this.state.gif})`}} title={cardheading()} bordered={false} >
+        <div className='cardDiv'>
+          <h1>{Math.floor(day.temp)}<sup>˚F</sup></h1>
+          <img src={`https://openweathermap.org/img/w/${day.icon}.png`} />
+          <p>{day.description}</p>
+        </div>
+      </Card>
     )
   }
 }

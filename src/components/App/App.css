@@ -1,44 +1,135 @@
 .trigger{
-  font-size: 18px;
-  line-height: 64px;
   padding: 0 16px;
   cursor: pointer;
   transition: color .3s;
+  font-size: 25px;
 }
-
-.logo {
-  height: 32px;
-  background: #333;
-  border-radius: 6px;
-  margin: 16px;
+.trigger:hover {
+  color: RGBA(16, 90, 145, 1);
 }
-
+.logocity {
+  letter-spacing: 5px;
+  font-size: 25px;
+  color: RGBA(16, 50, 105, 1);
+  font-weight: 900;
+}
 .main{
-  background-color: rgba(200,200,200,0.3);
-  z-index: 2;
+  background-color: rgba(200,200,200,0);
   padding-top: 22px;
   position: fixed;
   margin-left: 50%;
-  top: 50%;
-  transform: translateX(-50%) translateY(-50%)
-}
-
-.title{
-  font-family: 'helvetica';
-  color: black;
-  width: 525px;
-  background: #fff;
-  padding: 0;
+  top: 54%;
+  transform: translateX(-50%) translateY(-50%);
+  padding-bottom: 65px;
+  height: auto;
+  width: 100%;
+  min-width: 330px;
   text-align: center;
-  padding-right: 18px;
-  margin: 0 auto
+  color: #fff;
+  font-family: "Comfortaa", cursive;
+  display: inline-block;
 }
-
+.ant-tabs-bar {
+  margin-bottom: 5px;
+  border-bottom: 0px solid #108ee9;
+  background-color: rgba(16, 142, 233, 0);
+  border-radius: 5px;
+}
+.ant-card {
+  background-position: center;
+  border-bottom: 2px solid #108ee9;
+  border-top: 2px solid #108ee9;
+  font-weight: 100;
+  font-family: "Comfortaa", cursive;
+  border-radius: 5px;
+  margin: 0px;
+  color: #fff;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+.cardDiv {
+  background-color: RGBA(16, 50, 105, 0.2);
+  padding-bottom: 8px;
+  border-radius: 5px;
+  height: auto;
+  width: 150px;
+  margin: 0 auto;
+}
+.cardDiv:hover {
+  background-color: RGBA(16, 50, 105, 0.7);
+}
+.cardDiv h1 {
+  padding-top: 10px;
+  height: auto;
+  color: #fff;
+  font-weight: 100;
+  font-size: 40px;
+}
+.cardDiv img {
+  display: visible;
+  width: 50px;
+  padding-bottom: 15px;
+}
+.cardDiv p {
+  width: 100px;
+  margin: 0 auto;
+  color: #fff;
+  font-size: 20px;
+}
+.ant-card:not(.ant-card-no-hovering):hover {
+  border-color: rgba(255, 255, 255, 1);
+}
+.ant-card-head-title {
+  width: 100%;
+  color: #fff;
+  font-weight: 900;
+  font-size: 30px;
+}
+.ant-card-head-title:hover {
+  color: RGBA(16, 50, 105, 1);
+}
+.cardhead {
+  width: auto;
+  height: auto;
+  margin-top: 0px;
+}
+.ant-card-head {
+  visibility: visible;
+  background-color: rgba(255, 255, 255, 0);
+  border: 0px solid white;
+  margin-top: 33px;
+}
+.ant-tabs-nav-scroll {
+  padding-bottom: 0px;
+  color: RGBA(16, 90, 145, 1);
+  font-size: 22px;
+  font-weight: 900;
+  border-bottom: 0px;
+  font-family: 'Comfortaa', cursive;
+}
+.ant-tabs-nav .ant-tabs-tab-active {
+  color: RGBA(16, 50, 105, 1);
+}
+.ant-tabs-nav .ant-tabs-tab:hover{
+  color: RGBA(16, 50, 105, 1);
+}
+.ant-tabs-top .ant-tabs-ink-bar-animated, .ant-tabs-bottom .ant-tabs-ink-bar-animated {
+  background-color: RGBA(16, 50, 105, 1);
+}
+.ant-card-body {
+  margin: 0;
+  margin-top: 15px;
+  height: auto;
+  width: auto;
+}
 .weather{
   text-align: center;
-  width: 525px;
-  margin: 24px 16px;
-  padding: 24;
-  background: #fff;
-  min-height: 260
+  max-width: 620px;
+  padding-left: 24px;
+  padding-right: 24px;
+  padding-bottom: 24px;
+  padding-top: 45px;
+  background: rgba(0, 0, 0, 0);
+  color: white;
+  margin: 0 auto;
 }

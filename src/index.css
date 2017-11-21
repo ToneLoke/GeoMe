@@ -1,4 +1,17 @@
 body {
-  margin: 0;
-  padding: 0;
+  position: fixed;
+}
+video{
+  display: grid;
+  z-index: 1;
+  object-fit: cover;
+  height: -webkit-fill-available;
+  width: -webkit-fill-available;
+}
+#root {
+  z-index: 2;
+}
+#show {
+  display: block;
+  visibility: hidden;
 }

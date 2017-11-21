@@ -33,12 +33,11 @@ class Search extends React.Component {
   render() {
     const { predictions } = this.state
     return (
-      <div className="global-search-wrapper" style={{ width: 300 }}>
+      <div className="global-search-wrapper">
         <AutoComplete
           value={this.state.searchCity}
           className="global-search"
           size="large"
-          style={{ width: '100%' }}
           dataSource={predictions.map(renderOption)}
           onSelect={this.onSelect}
           onSearch={this.handleSearch}
@@ -50,5 +49,6 @@ class Search extends React.Component {
     )
   }
 }
+
 
 export default Search

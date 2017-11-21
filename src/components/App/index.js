@@ -72,11 +72,10 @@ class App extends Component {
     return (
       <Layout className='main'>
         <TopHeader city={this.state.city} country={this.state.country}/>
-        <Row>
-          <Col span={12} offset={6} >
-            <SearchBar getCity={this.getCity}/>
-          </Col>
-        </Row>
+
+        <SearchBar getCity={this.getCity}/>
+
+        
         <Content className='weather'>
           <Tabs
             defaultActiveKey='0'

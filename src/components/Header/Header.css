@@ -1,0 +1,15 @@
+.trigger{
+  padding: 0 16px;
+  cursor: pointer;
+  transition: color .3s;
+  font-size: 25px;
+}
+.trigger:hover {
+  color: RGBA(16, 90, 145, 1);
+}
+.logocity {
+  letter-spacing: 5px;
+  font-size: 25px;
+  color: RGBA(16, 50, 105, 1);
+  font-weight: 900;
+}
