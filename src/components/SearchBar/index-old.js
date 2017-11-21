@@ -15,7 +15,10 @@ function renderOption(item) {
 class Search extends React.Component {
   state = {
     predictions: [],
-    searchCity: ''
+    address: '',
+    geocodeResults: null,
+    loading: false
+
   }
 
   handleSearch = (value) => {
