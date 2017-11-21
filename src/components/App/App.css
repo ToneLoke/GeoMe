@@ -4,6 +4,9 @@
   transition: color .3s;
   font-size: 25px;
 }
+.ant-tabs-tab-prev-icon{
+   font-size: 78px!important
+}
 .trigger:hover {
   color: RGBA(16, 90, 145, 1);
 }

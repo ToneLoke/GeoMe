@@ -73,10 +73,7 @@ class App extends Component {
     return (
       <Layout className='main'>
         <TopHeader city={this.state.city} country={this.state.country}/>
-
         <SearchBar getCity={this.getCity}/>
-
-        
         <Content className='weather'>
           <Tabs
             defaultActiveKey='0'
