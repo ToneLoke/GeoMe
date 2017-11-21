@@ -38,7 +38,6 @@ class Search extends React.Component {
     return (
       <div className="global-search-wrapper">
         <AutoComplete
-          value={this.state.searchCity}
           className="global-search"
           size="large"
           dataSource={predictions.map(renderOption)}

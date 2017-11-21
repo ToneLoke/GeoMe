@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Layout, Col, Row, Tabs } from 'antd'
+import { Layout, Col, Row, Tabs, Spin} from 'antd'
 import moment from 'moment'
 import {CityAPI, WeatherAPI, GoogleAPI} from '../../apiAdapter'
 import WeatherDisplay from '../WeatherDisplay'
@@ -11,15 +11,13 @@ const { Content } = Layout
 
 class App extends Component {
   state ={
+    loading: true,
     city: '',
     country: '',
     timeString: '3 PM',
     today: moment().format('dddd'),
     forecast: {
     }
-  }
-  updateTime = (time, timeString) => {
-    this.setState({timeString})
   }
   setForecast = weather => {
       let city = weather.city.name
@@ -33,12 +31,13 @@ class App extends Component {
         Saturday:{},
         Sunday:{},
       }
+      //create forecast object with times as property
       weather.list.map( day => {
         let d = moment(day.dt_txt)
         forecast[`${d.format('dddd')}`][`${d.format('h A')}`] = {  temp: day.main.temp, ...day.weather[0], dt_txt: day.dt_txt}
       })
       delete forecast[this.state.today]
-      this.setState({city,forecast,country})
+      this.setState({city,forecast,country, loading: false})
   }
   createTabs = () => {
     let {forecast} = this.state
@@ -51,6 +50,7 @@ class App extends Component {
                   })
   }
   getCity = (cityName) => {
+    this.setState({loading: true})
     GoogleAPI.getGeolocation(cityName)
     .then( geo => {
       console.log(geo)
@@ -61,6 +61,7 @@ class App extends Component {
     .catch( err => console.log(err))
   }
   componentWillMount () {
+    // get users location based off of the browser ip
     CityAPI.get()
       .then( data => {
         let geolocation = data.loc.split(',')
@@ -74,6 +75,7 @@ class App extends Component {
       <Layout className='main'>
         <TopHeader city={this.state.city} country={this.state.country}/>
         <SearchBar getCity={this.getCity}/>
+        { this.state.loading ? <Spin style={{backgroundColor: 'white'}} size="large" /> : null }
         <Content className='weather'>
           <Tabs
             id='weatherIcon'
