@@ -9,7 +9,7 @@ class FiveDay extends Component {
     gif: ''
   }
   componentWillMount () {
-    // this.gifChange(this.props.day.main)
+    this.gifChange(this.props.day.main)
   }
   componentWillReceiveProps (nextProps) {
     this.gifChange(nextProps.day.main)
