@@ -1,54 +1,35 @@
-import React, {Component} from 'react'
-import { Icon, Button, Input, AutoComplete } from 'antd'
-import { GoogleAPI } from '../../apiAdapter'
-import './Search.css'
-const {Option} = AutoComplete
+import React from 'react'
+import PlacesAutocomplete, { geocodeByAddress, getLatLng } from 'react-places-autocomplete'
 
-function renderOption(item) {
-  return (
-    <Option key={item.description} text={item.description}>
-      { item.description }
-    </Option>
-  )
-}
-
-class Search extends React.Component {
-  state = {
-    predictions: [],
-    searchCity: ''
+class SimpleForm extends React.Component {
+  constructor(props) {
+    super(props)
+    this.state = { address: 'San Francisco, CA' }
+    this.onChange = (address) => this.setState({ address })
   }
 
-  handleSearch = (value) => {
-    GoogleAPI.getCities(value)
-      .then( res => {
-        let {predictions} = res
-        this.setState({predictions,searchCity: value})
-      })
+  handleFormSubmit = (event) => {
+    event.preventDefault()
+
+    geocodeByAddress(this.state.address)
+      .then(results => getLatLng(results[0]))
+      .then(latLng => console.log('Success', latLng))
+      .catch(error => console.error('Error', error))
   }
-  onSelect = (value) =>  {
-    let text = encodeURI(value.split(', ').join(','))
-    this.props.getCity(text)
-    this.setState({searchCity: ''})
-  }
+
   render() {
-    const { predictions } = this.state
+    const inputProps = {
+      value: this.state.address,
+      onChange: this.onChange,
+    }
+
     return (
-      <div className="global-search-wrapper">
-        <AutoComplete
-          value={this.state.searchCity}
-          className="global-search"
-          size="large"
-          dataSource={predictions.map(renderOption)}
-          onSelect={this.onSelect}
-          onSearch={this.handleSearch}
-          placeholder="Enter a City Name"
-          optionLabelProp="text"
-        >
-        </AutoComplete>
-      </div>
+      <form onSubmit={this.handleFormSubmit}>
+        <PlacesAutocomplete inputProps={inputProps} />
+        <button type="submit">Submit</button>
+      </form>
     )
   }
 }
 
-
-export default Search
+export default SimpleForm

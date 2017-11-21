@@ -1,18 +1,17 @@
-
 class API {
   static request (url, method) {
     const promise = new Promise((resolve, reject) => {
       if (!(typeof url === 'string') || !(typeof method === 'string')) return reject(new Error('url, method must be of type string'))
       let params = {
-        method: method
+        method: 'GET'
       }
-      return fetch(url, params)
+      return fetch('https://cors-anywhere.herokuapp.com/' + url, params)
               .then(res => res.json())
               .then(s => {
                 return resolve(s)
               })
               .catch(e => {
-                reject(new Error(e))
+                return reject(new Error(e))
               })
     })
     return promise
