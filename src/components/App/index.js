@@ -68,7 +68,7 @@ class App extends Component {
         return WeatherAPI.getForecast(geolocation[0], geolocation[1])
       })
       .then(this.setForecast)
-      .catch(err => console.log(err))
+      .catch(err => err)
   }
   render () {
     return (
