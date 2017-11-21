@@ -53,6 +53,7 @@ class App extends Component {
   getCity = (cityName) => {
     GoogleAPI.getGeolocation(cityName)
     .then( geo => {
+      console.log(geo)
       let {lat , lng} = geo.results[0].geometry.location
       return WeatherAPI.getForecast(lat, lng)
     })
