@@ -2,6 +2,8 @@
 
 A React application to fulfil all your weather needs and search any city in the world! Added some gifs for your pleasure. 
 
+
+![](geome.gif)
 #### Features
 1. Used ipinfo to get current location. [ipinfo](ipinfo.io)
 2. OpenWeatherMap API for 5 day forecast. [OWM](https://openweathermap.org/forecast5#min)
