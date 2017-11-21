@@ -76,6 +76,7 @@ class App extends Component {
         <SearchBar getCity={this.getCity}/>
         <Content className='weather'>
           <Tabs
+            id='weatherIcon'
             defaultActiveKey='0'
             tabPosition='top'
           >

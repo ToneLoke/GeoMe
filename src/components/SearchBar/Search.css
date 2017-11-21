@@ -1,8 +1,6 @@
 .global-search-wrapper {
   margin: 0 auto;
   max-width: 525px;
-  padding-left: 60px;
-  padding-right: 110px;
   width: auto;
   height: auto;
   padding-top: 45px;
@@ -22,7 +20,11 @@
   width: 100%;
 }
 .global-search.ant-select-auto-complete .ant-select-selection--single {
-  background-color: rgba(255, 100, 0, 0.2);
+  background-color: white;
+  box-shadow: 4px 5px 15px rgba(50, 50, 50, 0.3);
+}
+.global-search.ant-select-auto-complete .ant-select-selection--single:hover{
+  background-color: white;
   box-shadow: 4px 5px 15px rgba(50, 50, 50, 0.3);
 }
 .global-search.ant-select-auto-complete .ant-input-affix-wrapper .ant-input:not(:last-child) {
